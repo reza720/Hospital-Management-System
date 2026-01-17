@@ -1,7 +1,7 @@
-const DepartmentController=require("./DepartmentController");
-const DoctorController=require("./DoctorController");
-const PatientController=require("./PatientController");
-const AppointmentController=require("./AppointmentController");
+const DepartmentController=require("./departmentController");
+const DoctorController=require("./doctorController");
+const PatientController=require("./patientController");
+const AppointmentController=require("./appointmentController");
 
 module.exports={
     DepartmentController,
