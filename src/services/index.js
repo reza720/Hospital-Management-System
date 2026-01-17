@@ -1,7 +1,7 @@
-const DepartmentService=require("./DepartmentService");
-const DoctorService=require("./DoctorService");
-const PatientService=require("./PatientService");
-const AppointmentService=require("./AppointmentService");
+const DepartmentService=require("./departmentService");
+const DoctorService=require("./doctorService");
+const PatientService=require("./patientService");
+const AppointmentService=require("./appointmentService");
 
 module.exports={
     DepartmentService,

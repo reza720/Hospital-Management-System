@@ -1,8 +1,8 @@
 const sequelize=require("../config/database");
-const Department=require("./Department");
-const Doctor=require("./Doctor");
-const Patient=require("./Patient");
-const Appointment=require("./Appointment");
+const Department=require("./department");
+const Doctor=require("./doctor");
+const Patient=require("./patient");
+const Appointment=require("./appointment");
  
 Department.hasMany(Doctor,{foreignKey:"departmentId"});
 Doctor.belongsTo(Department,{foreignKey:"departmentId"});

@@ -2,27 +2,29 @@ const {Appointment}=require("../models");
 
 class AppointmentService{
     async createAppointment(data){
-        return await Appointment.create(data);
+        return Appointment.create(data);
     }
     async getAppointments(){
-        return await Appointment.findAll();
+        return Appointment.findAll();
     }
     async getAppointmentById(id){
-        return await Appointment.findByPk(id);
+        const target=await Appointment.findByPk(id);
+        if(!target){
+            const err=new Error("Appointment not found");
+            err.statusCode=404;
+            throw err;
+        }
+        return target;
     }
     async updateAppointment(id,data){
-        const target=await Appointment.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
-        return await target.update(data);
+        const target=await this.getAppointmentById(id);
+        await target.update(data);
+        return target;
     }
     async deleteAppointment(id){
-        const target=await Appointment.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
+        const target=await this.getAppointmentById(id);
         await target.destroy();
+        return {message:"Deleted"};
     }
 }
 module.exports=new AppointmentService();

@@ -2,27 +2,29 @@ const {Department}=require("../models");
 
 class DepartmentService{
     async createDepartment(data){
-        return await Department.create(data);
+        return Department.create(data);
     }
     async getDepartments(){
-        return await Department.findAll();
+        return Department.findAll();
     }
     async getDepartmentById(id){
-        return await Department.findByPk(id);
+        const target=await Department.findByPk(id);
+        if(!target){
+            const err=new Error("Department not found");
+            err.statusCode=404;
+            throw err;
+        }
+        return target;
     }
     async updateDepartment(id,data){
-        const target=await Department.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
-        return await target.update(data);
+        const target=await this.getDepartmentById(id);
+        await target.update(data);
+        return target;
     }
     async deleteDepartment(id){
-        const target=await Department.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
+        const target=await this.getDepartmentById(id);
         await target.destroy();
+        return {message:"Deleted"};
     }
 }
 module.exports=new DepartmentService();

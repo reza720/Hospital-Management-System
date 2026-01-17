@@ -2,27 +2,29 @@ const {Doctor}=require("../models");
 
 class DoctorService{
     async createDoctor(data){
-        return await Doctor.create(data);
+        return Doctor.create(data);
     }
     async getDoctors(){
-        return await Doctor.findAll();
+        return Doctor.findAll();
     }
     async getDoctorById(id){
-        return await Doctor.findByPk(id);
+        const target=await Doctor.findByPk(id);
+        if(!target){
+            const err=new Error("Doctor not found");
+            err.statusCode=404;
+            throw err;
+        }
+        return target;
     }
     async updateDoctor(id,data){
-        const target=await Doctor.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
-        return await target.update(data);
+        const target=await this.getDoctorById(id);
+        await target.update(data);
+        return target;
     }
     async deleteDoctor(id){
-        const target=await Doctor.findByPk(id);
-        if(!target){
-            throw new Error("not found");
-        }
+        const target=await this.getDoctorById(id);
         await target.destroy();
+        return {message:"Deleted"};
     }
 }
 module.exports=new DoctorService();
